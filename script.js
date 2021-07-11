@@ -5,13 +5,16 @@ var databaseReference = database.ref();
 
 
 $(document).ready(function(){
-    console.log(storage);
+    
     $("#submit-person-data").click(function(){
+        console.log($("#exampleFormControlFile1").val());
+
         const person = {
             "name":$("#inputName").val(),
             "email":$("#exampleInputEmail1").val(),
         }
-        startAPImanager(person);
+        $("#testImg").attr("src",$("#exampleFormControlFile1").val());
+        // startAPImanager(person);
     })
 })
 
@@ -23,7 +26,7 @@ const startAPImanager = async (person) => {
         file name is image_PNG
 
         */
-
+        const image_PNG = await convertHEICtoPNGfile()
         const fireBaseImageURL = await pushDataToFireBase(person, image_PNG);
 
 
