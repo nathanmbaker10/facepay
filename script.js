@@ -5,29 +5,31 @@ var databaseReference = database.ref();
 
 
 $(document).ready(function(){
-    
+
     $("#submit-person-data").click(function(){
-        console.log($("#exampleFormControlFile1").val());
+        event.preventDefault()
+        console.log($("#exampleFormControlFile1"));
+        // file metadata (or data?)
+        const photo = $("#exampleFormControlFile1")[0]["files"][0];
+        console.log(photo);
 
         const person = {
             "name":$("#inputName").val(),
-            "email":$("#exampleInputEmail1").val(),
+            "email":$("#exampleInputEmail1").val()
         }
-        $("#testImg").attr("src",$("#exampleFormControlFile1").val());
-        // startAPImanager(person);
+        
+        startAPImanager(person, photo);
     })
 })
 
-const startAPImanager = async (person) => {
+const startAPImanager = async (personData, image_PNG) => {
     try {
-        const responseFromCreatePersonJSON = await createPerson(person);
+        const responseFromCreatePersonJSON = await createPerson(personData);
         const personId = responseFromCreatePersonJSON["personId"];
-        /*Must convert image to png before pushing to databasae below:
-        file name is image_PNG
-
-        */
-        const image_PNG = await convertHEICtoPNGfile()
-        const fireBaseImageURL = await pushDataToFireBase(person, image_PNG);
+        // assuming iPhone converts to png, we won't need to conversion ourselves
+        // const image_PNG = await convertHEICtoPNGfile()
+        
+        const fireBaseImageURL = await pushDataToFireBase(personData, personId, image_PNG);
 
 
 
@@ -58,8 +60,8 @@ const createPerson = async(person) => {
     }).catch(err => console.log(err))
 }
 
-const pushDataToFireBase = async (personObject, image_PNG) => {
-    var folderRef = storagReference.child(personObject["personId"]);
+const pushDataToFireBase = async (personData, personId, image_PNG) => {
+    var folderRef = storageReference.child(personId);
 
 
     //Jake I need you to get this right. What will the file name be? It doesn't really matter, but is it a property of the image_PNG object?
@@ -70,7 +72,7 @@ const pushDataToFireBase = async (personObject, image_PNG) => {
 
     var firebaseImageURL
     //url to image is probably here in the snapshot
-    await ref.put(image_PNG).then((snapshot) => {
+    await imageRef.put(image_PNG).then((snapshot) => {
         console.log(snapshot);
 
         // firebaseImageURL = snapshot.url
@@ -80,15 +82,9 @@ const pushDataToFireBase = async (personObject, image_PNG) => {
     var databaseUserRef = databaseReference.child(personObject["personId"]);
 
     await databaseUserRef.set({
-        name: personObject["name"],
-        email: personObject["email"]
+        name: personData["name"],
+        email: personData["email"]
     });
 
     return url;
-
-
-
-
 }
-
-
