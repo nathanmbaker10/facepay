@@ -1,8 +1,11 @@
 var storage = firebase.storage();
-var reference = storage.ref();
+var storageReference = storage.ref();
+var database = firebase.database();
+var databaseReference = database.ref();
 
 
 $(document).ready(function(){
+    console.log(storage);
     $("#submit-person-data").click(function(){
         const person = {
             "name":$("#inputName").val(),
@@ -15,6 +18,16 @@ $(document).ready(function(){
 const startAPImanager = async (person) => {
     try {
         const responseFromCreatePersonJSON = await createPerson(person);
+        const personId = responseFromCreatePersonJSON["personId"];
+        /*Must convert image to png before pushing to databasae below:
+        file name is image_PNG
+
+        */
+
+        const fireBaseImageURL = await pushDataToFireBase(person, image_PNG);
+
+
+
         console.log(responseFromCreatePersonJSON);
     } catch (err) {
         console.log(err);
@@ -41,3 +54,38 @@ const createPerson = async(person) => {
         return responseJSON;
     }).catch(err => console.log(err))
 }
+
+const pushDataToFireBase = async (personObject, image_PNG) => {
+    var folderRef = storagReference.child(personObject["personId"]);
+
+
+    //Jake I need you to get this right. What will the file name be? It doesn't really matter, but is it a property of the image_PNG object?
+    var fileName = image_PNG.name
+
+
+    var imageRef = folderRef.child(fileName);
+
+    var firebaseImageURL
+    //url to image is probably here in the snapshot
+    await ref.put(image_PNG).then((snapshot) => {
+        console.log(snapshot);
+
+        // firebaseImageURL = snapshot.url
+    });
+
+
+    var databaseUserRef = databaseReference.child(personObject["personId"]);
+
+    await databaseUserRef.set({
+        name: personObject["name"],
+        email: personObject["email"]
+    });
+
+    return url;
+
+
+
+
+}
+
+
