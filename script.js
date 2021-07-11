@@ -1,3 +1,6 @@
+var storage = firebase.storage();
+var reference = storage.ref();
+
 
 $(document).ready(function(){
     $("#submit-person-data").click(function(){
@@ -10,8 +13,12 @@ $(document).ready(function(){
 })
 
 const startAPImanager = async (person) => {
-    const responseFromCreatePersonJSON = await createPerson(person);
-    console.log(responseFromCreatePersonJSON);
+    try {
+        const responseFromCreatePersonJSON = await createPerson(person);
+        console.log(responseFromCreatePersonJSON);
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 const createPerson = async(person) => {
@@ -21,9 +28,8 @@ const createPerson = async(person) => {
         name: person["name"]
     }
     console.log(data["name"]);
-    const response = await fetch(url, {
+    return response = await fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'no-cors', // no-cors, *cors, same-origi 
         headers: {
             'Content-Type': 'application/json',
             'Ocp-Apim-Subscription-Key': '36831fd5885b4c2396d0ca248e26e02e'
@@ -31,5 +37,7 @@ const createPerson = async(person) => {
         body: JSON.stringify(data) // body data type must match "Content-Type" header
     })
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then(responseJSON => {
+        return responseJSON;
+    }).catch(err => console.log(err))
 }
