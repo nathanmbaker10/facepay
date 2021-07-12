@@ -8,10 +8,9 @@ $(document).ready(function(){
 
     $("#submit-person-data").click(function(){
         event.preventDefault()
-        console.log($("#exampleFormControlFile1"));
+        
         // file metadata (or data?)
         const photo = $("#exampleFormControlFile1")[0]["files"][0];
-        console.log(photo);
 
         const person = {
             "name":$("#inputName").val(),
@@ -33,7 +32,6 @@ const startAPImanager = async (personData, image_PNG) => {
 
 
 
-        console.log(responseFromCreatePersonJSON);
     } catch (err) {
         console.log(err);
     }
@@ -45,7 +43,6 @@ const createPerson = async(person) => {
     const data = {
         name: person["name"]
     }
-    console.log(data["name"]);
     return response = await fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
@@ -71,20 +68,22 @@ const pushDataToFireBase = async (personData, personId, image_PNG) => {
     var imageRef = folderRef.child(fileName);
 
     var firebaseImageURL
+    var dataBaseSnapshot
     //url to image is probably here in the snapshot
     await imageRef.put(image_PNG).then((snapshot) => {
-        console.log(snapshot);
-
-        // firebaseImageURL = snapshot.url
+        dataBaseSnapshot = snapshot;
     });
 
+    await dataBaseSnapshot.ref.getDownloadURL().then((downloadURL) => {
+    
+        firebaseImageURL = downloadURL;
+    })
 
-    var databaseUserRef = databaseReference.child(personObject["personId"]);
 
-    await databaseUserRef.set({
-        name: personData["name"],
-        email: personData["email"]
-    });
+    
 
-    return url;
+    await database.ref(personId).set(personData);
+
+    
+    return firebaseImageURL;
 }
