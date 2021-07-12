@@ -29,12 +29,31 @@ const startAPImanager = async (personData, image_PNG) => {
         // const image_PNG = await convertHEICtoPNGfile()
         
         const fireBaseImageURL = await pushDataToFireBase(personData, personId, image_PNG);
-
+        await addFaceToPerson(personId, fireBaseImageURL);
 
 
     } catch (err) {
         console.log(err);
     }
+}
+
+const addFaceToPerson = async(personId, fireBaseImageURL) => {
+    const url = 'https://face-mvp.cognitiveservices.azure.com/face/v1.0/persongroups/everyone/persons/' + personId + '/persistedFaces';
+    const data = {
+        url: fireBaseImageURL
+    }
+    await fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            'Content-Type': 'application/json',
+            'Ocp-Apim-Subscription-Key': '36831fd5885b4c2396d0ca248e26e02e'
+        },
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+    })
+    .then(response => response.json())
+    .then(responseJSON => {
+        console.log(responseJSON)
+    }).catch(err => console.log(err))
 }
 
 const createPerson = async(person) => {
