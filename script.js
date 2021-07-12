@@ -30,11 +30,25 @@ const startAPImanager = async (personData, image_PNG) => {
         
         const fireBaseImageURL = await pushDataToFireBase(personData, personId, image_PNG);
         await addFaceToPerson(personId, fireBaseImageURL);
-
+        await trainPersonGroup();
 
     } catch (err) {
         console.log(err);
     }
+}
+
+const trainPersongroup = async () => {
+    const url = 'https://face-mvp.cognitiveservices.azure.com/face/v1.0/persongroups/everyone/train';
+    await fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            'Ocp-Apim-Subscription-Key': '36831fd5885b4c2396d0ca248e26e02e'
+        }
+    })
+    .then(response => response.json())
+    .then(responseJSON => {
+        console.log(responseJSON)
+    }).catch(err => console.log(err))
 }
 
 const addFaceToPerson = async(personId, fireBaseImageURL) => {
