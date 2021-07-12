@@ -21,7 +21,11 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="stylesheet" type="text/css" href="main.css">
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;1,200;1,300;1,400;1,600&display=swap" rel="stylesheet">
+  <!--font-family: 'Titillium Web', sans-serif;-->
+
 
 
 
@@ -35,13 +39,17 @@
 <body>
 
   <div>
-    <form>
+    <div id="company-name">
+      FacePay
+    </div>
+    
+    <form id="sign-up-info">
       <div class="form-group">
-        <label for="inputName">Full Name</label>
+        <label for="inputName">Enter your full name:</label>
         <input type="name" class="form-control" id="inputName" aria-describedby="emailHelp" placeholder="Enter Full Name">
       </div>
       <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
+        <label for="exampleInputEmail1">Enter your email address:</label>
         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
       </div>

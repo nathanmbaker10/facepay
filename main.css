@@ -1,7 +1,32 @@
 .form-group {
-	margin: auto;
-
+	margin-left:1%;
+	margin-top:2%;
 	width:50%;
+	font-family: 'Titillium Web', sans-serif;
+	font-weight:300;
+	color:#252529;
+}
+#sign-up-info{
+	border-radius: 25px;
+	border: 2px solid darkgrey;
+	padding-left:3%;
+	margin-left:2%;
+	margin-right:2%;
+}
+
+
+
+#company-name {
+	font-family: 'Titillium Web', sans-serif;
+	font-weight:600;
+	font-size: 40px;
+	margin-left:1%;
+	margin-top:1%;
+	width:50%;
+	color:#565861;
+	letter-spacing: 8px;
+	margin:auto;
+	
 }
 
 #submit-person-data{

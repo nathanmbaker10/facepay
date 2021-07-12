@@ -22,16 +22,13 @@ $(document).ready(function(){
 })
 
 const startAPImanager = async (personData, image_PNG) => {
+    let success;
     try {
         const responseFromCreatePersonJSON = await createPerson(personData);
         const personId = responseFromCreatePersonJSON["personId"];
-        // assuming iPhone converts to png, we won't need to conversion ourselves
-        // const image_PNG = await convertHEICtoPNGfile()
-        
         const fireBaseImageURL = await pushDataToFireBase(personData, personId, image_PNG);
         await addFaceToPerson(personId, fireBaseImageURL);
         await trainPersonGroup();
-
     } catch (err) {
         console.log(err);
     }
@@ -107,7 +104,7 @@ const pushDataToFireBase = async (personData, personId, image_PNG) => {
     await dataBaseSnapshot.ref.getDownloadURL().then((downloadURL) => {
     
         firebaseImageURL = downloadURL;
-    })
+    }).catch(err => console.log(err))
 
 
     
