@@ -1,12 +1,19 @@
+body{
+	background-color:black;
+	color:white;
+}
+
 .form-group {
 	margin-left:1%;
 	margin-top:2%;
-	width:50%;
-	font-family: 'Titillium Web', sans-serif;
+	font-family: 'Montserrat', sans-serif;
 	font-weight:300;
-	color:#252529;
+	color:#E1DFDE;
+	margin-right:5%;
 }
+
 #sign-up-info{
+	margin-top:30px;
 	border-radius: 25px;
 	border: 2px solid darkgrey;
 	padding-left:3%;
@@ -14,16 +21,22 @@
 	margin-right:2%;
 }
 
-
-
 #company-name {
-	font-family: 'Titillium Web', sans-serif;
-	font-weight:600;
+font-family: 'Montserrat', sans-serif;
+font-size: 20px;
+margin-left:20px;
+margin-top:20px;
+}
+
+#sign-up {
+	font-family: 'Montserrat', sans-serif;
 	font-size: 40px;
+	margin-top:30px;
 	margin-left:1%;
+	text-align:center;
 	margin-top:1%;
-	width:50%;
-	color:#565861;
+	width:100%;
+	color:#E1DFDE;
 	letter-spacing: 8px;
 	margin:auto;
 	
