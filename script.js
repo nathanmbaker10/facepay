@@ -1,9 +1,3 @@
-var storage = firebase.storage();
-var storageReference = storage.ref();
-var database = firebase.database();
-var databaseReference = database.ref();
-
-
 $(document).ready(function(){
 
     $("#submit-person-data").click(function(){
@@ -110,6 +104,7 @@ const pushDataToFireBase = async (personData, personId, image_PNG) => {
     
 
     await database.ref(personId).set(personData);
+    console.log(personData);
 
     
     return firebaseImageURL;
