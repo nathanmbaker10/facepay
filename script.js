@@ -77,35 +77,3 @@ const createPerson = async(person) => {
         return responseJSON;
     }).catch(err => console.log(err))
 }
-
-const pushDataToFireBase = async (personData, personId, image_PNG) => {
-    var folderRef = ref(storage,personId)
-    //var folderRef = storageReference.child(personId);
-
-
-    //Jake I need you to get this right. What will the file name be? It doesn't really matter, but is it a property of the image_PNG object?
-    var fileName = image_PNG.name
-
-
-    //var imageRef = folderRef.child(fileName);
-    var imageRef = ref(folderRef, fileName)
-    var firebaseImageURL
-    var dataBaseSnapshot
-    //url to image is probably here in the snapshot
-    await uploadBytes(imageRef,image_PNG).then((snapshot) => {
-        dataBaseSnapshot = snapshot;
-    });
-
-    await getDownloadURL(dataBaseSnapshot.ref).then((downloadURL) => {
-    
-        firebaseImageURL = downloadURL;
-    }).catch(err => console.log(err))
-
-
-    
-    await set(dbref(database, personId), personData);
-    console.log(personData);
-
-    
-    return firebaseImageURL;
-}
